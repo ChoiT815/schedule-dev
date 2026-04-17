@@ -133,6 +133,23 @@
 }
 ```
 
+
+---
+
+## 🗂️ ERD (Entity Relationship Diagram)
+
+```mermaid
+erDiagram
+    SCHEDULE {
+        LONG id PK
+        STRING username
+        STRING title
+        STRING content
+        DATETIME created_at
+        DATETIME updated_at
+    }
+```
+
 ---
 
 ##  Lv1 요구사항 충족 체크
