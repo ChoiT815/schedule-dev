@@ -30,11 +30,10 @@ public class Schedule {
 
     }
 
-    public Schedule(String title, String content, String author, String password) {
+    public Schedule(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.password = password;
     }
 
     //========== Getter ===========
