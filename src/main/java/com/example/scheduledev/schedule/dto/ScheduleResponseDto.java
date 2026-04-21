@@ -1,8 +1,10 @@
 package com.example.scheduledev.schedule.dto;
 
 import com.example.scheduledev.schedule.domain.Schedule;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
+
 
 public class ScheduleResponseDto {
     private Long id;
