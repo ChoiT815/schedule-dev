@@ -37,7 +37,7 @@ public class ScheduleService {
     @Transactional
     public Schedule updateSchedule(Long id, String title, String content) {
         Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("해당 일정이 없습니다."));
+                .orElseThrow(   () -> new RuntimeException("해당 일정이 없습니다."));
         schedule.update(title, content);
         return schedule;
     }

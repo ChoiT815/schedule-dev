@@ -19,7 +19,7 @@ public class ScheduleController {
 
     // 생성(C)
     @PostMapping
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto requestDto) {
+    public ScheduleResponseDto createSchedules(@RequestBody ScheduleRequestDto requestDto) {
         return new ScheduleResponseDto(
                 scheduleService.createSchedule(
                         requestDto.getTitle(),
@@ -31,7 +31,7 @@ public class ScheduleController {
 
     // 전체 조회(R)
     @GetMapping
-    public List<ScheduleResponseDto> getSchedule() {
+    public List<ScheduleResponseDto> getSchedules() {
         return scheduleService.getSchedules().stream()
                 .map(ScheduleResponseDto::new)
                 .toList();
@@ -39,13 +39,13 @@ public class ScheduleController {
 
     // 단건 조회(R)
     @GetMapping("/{id}")
-    public ScheduleResponseDto getSchedule(@PathVariable Long id) {
+    public ScheduleResponseDto getSchedules(@PathVariable Long id) {
         return new ScheduleResponseDto(scheduleService.getSchedule(id));
     }
 
     // 수정(U)
     @PatchMapping("/{id}")
-    public ScheduleResponseDto updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
+    public ScheduleResponseDto updateSchedules(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
         return new ScheduleResponseDto(
                 scheduleService.updateSchedule(id, requestDto.getTitle(), requestDto.getContent())
         );
@@ -53,7 +53,7 @@ public class ScheduleController {
 
     // 삭제(D)
     @DeleteMapping("/{id}")
-    public ScheduleResponseDto deleteSchedule(@PathVariable Long id) {
+    public ScheduleResponseDto deleteSchedules(@PathVariable Long id) {
         return new ScheduleResponseDto(
                 scheduleService.deleteSchedule(id)
         );
