@@ -17,7 +17,6 @@ public class Schedule {
      private Long id;
      private String title;
      private String content;
-     private String password;
 
      @CreatedDate // 만든 날짜
      @Column(updatable = false)
