@@ -24,7 +24,10 @@ public class Schedule {
 
      @LastModifiedDate // 수정 날짜
      private LocalDateTime updatedAt;
-     private String author;
+
+     @ManyToOne
+     @JoinColumn(name = "user_id")
+     private User user;
 
     //========== 생성자 ===========
     protected Schedule() {
