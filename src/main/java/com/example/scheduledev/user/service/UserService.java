@@ -16,8 +16,11 @@ public class UserService {
     }
 
     // 생성(C)
-    public User createUser(String username, String email) {
-        User user = new User(username, email);
+    public User createUser(String username, String email, String password) {
+        if(password.length() < 8) {
+            throw new RuntimeException("비밀번호는 8글자 이상이어야 합니다.");
+        }
+        User user = new User(username, email, password);
         return userRepository.save(user);
     }
 

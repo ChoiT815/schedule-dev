@@ -23,7 +23,8 @@ public class UserController {
         return new UserResponseDto(
                 userService.createUser(
                         requestDto.getUsername(),
-                        requestDto.getEmail()
+                        requestDto.getEmail(),
+                        requestDto.getPassword()
                 )
         );
     }

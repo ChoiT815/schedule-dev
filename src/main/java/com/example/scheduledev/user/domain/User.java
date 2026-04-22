@@ -18,6 +18,8 @@ public class User {
     private String username;
     private String email;
 
+    private String password;
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -30,9 +32,10 @@ public class User {
 
     }
 
-    public User(String username, String email) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     public void update(String username, String email) {
@@ -51,6 +54,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public LocalDateTime getCreatedAt() {
