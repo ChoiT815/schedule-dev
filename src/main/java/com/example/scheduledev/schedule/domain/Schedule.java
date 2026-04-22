@@ -1,0 +1,74 @@
+package com.example.scheduledev.schedule.domain;
+
+import com.example.scheduledev.user.domain.User;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "schedules")
+@EntityListeners(AuditingEntityListener.class)
+public class Schedule {
+     //========== 속성 ===========
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY) // ID 자동 증가
+     private Long id;
+     private String title;
+     private String content;
+
+     @CreatedDate // 만든 날짜
+     @Column(updatable = false)
+     private LocalDateTime createdAt;
+
+     @LastModifiedDate // 수정 날짜
+     private LocalDateTime updatedAt;
+
+     @ManyToOne
+     @JoinColumn(name = "user_id")
+     private User user;
+
+    //========== 생성자 ===========
+    protected Schedule() {
+
+    }
+
+    public Schedule(String title, String content, User user) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    //========== Getter ===========
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+}
