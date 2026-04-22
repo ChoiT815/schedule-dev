@@ -30,6 +30,18 @@ public class UserService {
 
     /*========== 기능 ===========*/
 
+
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
+
+        if(!user.getPassword().equals(password)) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return user;
+    }
+
     /*
      * 유저 생성
      * 비밀번호 8글자 미만이면 예외 발생, 통과하면 DB에 저장

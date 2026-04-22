@@ -1,8 +1,11 @@
 package com.example.scheduledev.user.controller;
 
+import com.example.scheduledev.user.domain.User;
+import com.example.scheduledev.user.dto.LoginRequestDto;
 import com.example.scheduledev.user.dto.UserRequestDto;
 import com.example.scheduledev.user.dto.UserResponseDto;
 import com.example.scheduledev.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +34,14 @@ public class UserController {
     }
 
     /*========== 기능 ===========*/
+
+    @PostMapping("/login")
+    public UserResponseDto login(@RequestBody LoginRequestDto requestDto, HttpSession session) {
+        User user = userService.login(requestDto.getEmail(), requestDto.getPassword());
+
+        session.setAttribute("userId", user.getId());
+        return new UserResponseDto(user);
+    }
 
     /*
      * 유저 생성 (POST /users)

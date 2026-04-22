@@ -6,11 +6,37 @@
 
 ## 공통 사항
 
-- Schedule Base URL: http://localhost:8080/schedules
-- User Base URL: http://localhost:8080/users
+- **Schedule Base URL**: `http://localhost:8080/schedules`
+- **User Base URL**: `http://localhost:8080/users`
 - **Auditing**
   - createdAt (작성일) - JPA Auditing 자동 처리
   - updatedAt (수정일) - JPA Auditing 자동 처리
+
+---
+
+## 📋 테이블 명세
+
+### USER 테이블
+
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|------|------|------|------|
+| id | BIGINT | PK, AUTO_INCREMENT | 유저 고유 식별자 |
+| username | VARCHAR(255) | NOT NULL | 유저명 |
+| email | VARCHAR(255) | NOT NULL | 이메일 |
+| password | VARCHAR(255) | NOT NULL | 비밀번호 (8글자 이상) |
+| created_at | DATETIME | NOT NULL | 작성일 (자동 생성) |
+| updated_at | DATETIME | NOT NULL | 수정일 (자동 갱신) |
+
+### SCHEDULE 테이블
+
+| 컬럼명 | 타입 | 제약조건 | 설명 |
+|------|------|------|------|
+| id | BIGINT | PK, AUTO_INCREMENT | 일정 고유 식별자 |
+| user_id | BIGINT | FK, NOT NULL | 유저 고유 식별자 (users.id 참조) |
+| title | VARCHAR(255) | NOT NULL | 할일 제목 |
+| content | VARCHAR(255) | NOT NULL | 할일 내용 |
+| created_at | DATETIME | NOT NULL | 작성일 (자동 생성) |
+| updated_at | DATETIME | NOT NULL | 수정일 (자동 갱신) |
 
 ---
 
