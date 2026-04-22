@@ -1,9 +1,7 @@
 package com.example.scheduledev.user.controller;
 
 import com.example.scheduledev.user.domain.User;
-import com.example.scheduledev.user.dto.LoginRequestDto;
-import com.example.scheduledev.user.dto.UserRequestDto;
-import com.example.scheduledev.user.dto.UserResponseDto;
+import com.example.scheduledev.user.dto.*;
 import com.example.scheduledev.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +34,11 @@ public class UserController {
     /*========== 기능 ===========*/
 
     @PostMapping("/login")
-    public UserResponseDto login(@RequestBody LoginRequestDto requestDto, HttpSession session) {
+    public UserCreateResponse login(@RequestBody LoginRequestDto requestDto, HttpSession session) {
         User user = userService.login(requestDto.getEmail(), requestDto.getPassword());
 
         session.setAttribute("userId", user.getId());
-        return new UserResponseDto(user);
+        return new UserCreateResponse(user);
     }
 
     /*
@@ -49,8 +47,8 @@ public class UserController {
      * @RequestBody: HTTP 요청 Body의 JSON을 UserRequestDto 객체로 변환
      */
     @PostMapping
-    public UserResponseDto createUsers(@RequestBody UserRequestDto requestDto) {
-        return new UserResponseDto(
+    public UserCreateResponse createUsers(@RequestBody UserCreateRequest requestDto) {
+        return new UserCreateResponse (
                 userService.createUser(
                         requestDto.getUsername(),
                         requestDto.getEmail(),
@@ -65,9 +63,9 @@ public class UserController {
      * 모든 유저를 List<UserResponseDto>로 반환
      */
     @GetMapping
-    public List<UserResponseDto> getUsers() {
+    public List<UserGetResponse> getUsers() {
         return userService.getUsers().stream()
-                .map(UserResponseDto::new) /* User → UserResponseDto 변환 */
+                .map(UserGetResponse::new) /* User → UserResponseDto 변환 */
                 .toList();
     }
 
@@ -76,8 +74,8 @@ public class UserController {
      * @PathVariable: URL 경로의 {id} 값을 Long id 파라미터로 받음
      */
     @GetMapping("/{id}")
-    public UserResponseDto getUsers(@PathVariable Long id) {
-        return new UserResponseDto(userService.getUser(id));
+    public UserGetResponse getUsers(@PathVariable Long id) {
+        return new UserGetResponse(userService.getUser(id));
     }
 
     /*
@@ -86,8 +84,8 @@ public class UserController {
      * username, email만 수정 가능 (password는 별도 처리)
      */
     @PatchMapping("/{id}")
-    public UserResponseDto updateUsers(@PathVariable Long id, @RequestBody UserRequestDto requestDto) {
-        return new UserResponseDto(
+    public UserUpdateResponse updateUsers(@PathVariable Long id, @RequestBody UserUpdateRequest requestDto) {
+        return new UserUpdateResponse(
                 userService.updateUser(id, requestDto.getUsername(), requestDto.getEmail())
         );
     }
@@ -98,8 +96,8 @@ public class UserController {
      * 삭제된 유저를 응답으로 반환
      */
     @DeleteMapping("/{id}")
-    public UserResponseDto deleteUsers(@PathVariable Long id) {
-        return new UserResponseDto(
+    public UserDeleteResponse deleteUsers(@PathVariable Long id) {
+        return new UserDeleteResponse(
                 userService.deleteUser(id)
         );
     }
