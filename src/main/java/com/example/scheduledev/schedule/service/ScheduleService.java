@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /*
- * @Service: 이 클래스가 비즈니스 로직을 담당하는 서비스 계층임을 선언
- * Spring이 자동으로 Bean으로 등록해서 Controller에서 주입받아 사용 가능
+ * 일정 관련 비즈니스 로직을 담당하는 Service 클래스
+ * @Service: Spring이 자동으로 Bean으로 등록해서 Controller에서 주입받아 사용 가능
  */
 @Service
 public class ScheduleService {
@@ -26,6 +26,7 @@ public class ScheduleService {
 
     /*
      * 생성자 주입 방식: @Autowired 없이 Spring이 자동으로 의존성 주입
+     * 생성자가 하나면 @Autowired 생략 가능
      */
     public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository) {
         this.scheduleRepository = scheduleRepository;
@@ -36,7 +37,7 @@ public class ScheduleService {
 
     /*
      * 일정 생성
-     * userId로 User를 먼저 조회한 뒤, 새 Schedule을 생성해서 DB에 저장
+     * 세션에서 받은 userId로 User를 먼저 조회한 뒤, 새 Schedule을 생성해서 DB에 저장
      */
     public Schedule createSchedule(String title, String content, Long userId) {
         User user = userRepository.findById(userId)
@@ -46,7 +47,7 @@ public class ScheduleService {
     }
 
     /*
-     * 전체 조회
+     * 일정 전체 조회
      * DB의 모든 일정을 리스트로 반환 (SELECT * FROM schedules)
      */
     public List<Schedule> getSchedules() {
@@ -54,7 +55,7 @@ public class ScheduleService {
     }
 
     /*
-     * 단건 조회
+     * 일정 단건 조회
      * id로 일정 하나를 조회, 없으면 예외 발생
      */
     public Schedule getSchedule(Long id) {
@@ -63,7 +64,7 @@ public class ScheduleService {
     }
 
     /*
-     * 수정
+     * 일정 수정
      * @Transactional: 트랜잭션 범위 안에서 엔티티 변경을 감지(더티체킹)해서 자동으로 UPDATE 쿼리 실행
      * save()를 직접 호출하지 않아도 됨
      */
@@ -76,7 +77,7 @@ public class ScheduleService {
     }
 
     /*
-     * 삭제
+     * 일정 삭제
      * @Transactional: 삭제 작업도 트랜잭션 안에서 처리
      * 삭제된 일정을 반환해서 Controller에서 응답으로 사용
      */

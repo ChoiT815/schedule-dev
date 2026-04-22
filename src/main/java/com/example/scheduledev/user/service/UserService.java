@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /*
- * @Service: 이 클래스가 비즈니스 로직을 담당하는 서비스 계층임을 선언
- * Spring이 자동으로 Bean으로 등록해서 Controller에서 주입받아 사용 가능
+ * 유저 관련 비즈니스 로직을 담당하는 Service 클래스
+ * @Service: Spring이 자동으로 Bean으로 등록해서 Controller에서 주입받아 사용 가능
  */
 @Service
 public class UserService {
@@ -23,6 +23,7 @@ public class UserService {
 
     /*
      * 생성자 주입 방식: @Autowired 없이 Spring이 자동으로 의존성 주입
+     * 생성자가 하나면 @Autowired 생략 가능
      */
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -30,11 +31,17 @@ public class UserService {
 
     /*========== 기능 ===========*/
 
-
+    /*
+     * 로그인
+     * 이메일로 유저를 조회한 뒤 비밀번호 일치 여부 확인
+     * 일치하면 유저 반환, 불일치하면 예외 발생
+     */
     public User login(String email, String password) {
+        /* 이메일로 유저 조회, 없으면 예외 발생 */
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
 
+        /* 비밀번호 일치 여부 확인 */
         if(!user.getPassword().equals(password)) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
@@ -56,7 +63,7 @@ public class UserService {
     }
 
     /*
-     * 전체 조회
+     * 유저 전체 조회
      * DB의 모든 유저를 리스트로 반환 (SELECT * FROM users)
      */
     public List<User> getUsers() {
@@ -64,7 +71,7 @@ public class UserService {
     }
 
     /*
-     * 단건 조회
+     * 유저 단건 조회
      * id로 유저 하나를 조회, 없으면 예외 발생
      */
     public User getUser(Long id) {
@@ -73,7 +80,7 @@ public class UserService {
     }
 
     /*
-     * 수정
+     * 유저 수정
      * @Transactional: 트랜잭션 범위 안에서 엔티티 변경을 감지(더티체킹)해서 자동으로 UPDATE 쿼리 실행
      * save()를 직접 호출하지 않아도 됨
      */
@@ -86,7 +93,7 @@ public class UserService {
     }
 
     /*
-     * 삭제
+     * 유저 삭제
      * @Transactional: 삭제 작업도 트랜잭션 안에서 처리
      * 삭제된 유저를 반환해서 Controller에서 응답으로 사용
      */
