@@ -76,6 +76,7 @@ erDiagram
 | id | Long | 유저 ID |
 | username | String | 유저명 |
 | email | String | 이메일 |
+| password | String | 비밀번호 (8글자 이상) |
 | createdAt | LocalDateTime | 작성일 (자동 생성) |
 | updatedAt | LocalDateTime | 수정일 (자동 갱신) |
 
