@@ -5,8 +5,10 @@ import com.example.scheduledev.user.domain.User;
 import jakarta.persistence.*;
 
 /*
+ * 일정 엔티티 클래스
  * @Entity: 이 클래스가 DB 테이블과 연결된 JPA 엔티티임을 선언
  * @Table: 연결할 DB 테이블 이름을 "schedules"로 지정
+ * BaseEntity를 상속받아 createdAt, updatedAt 자동 관리
  */
 @Entity
 @Table(name = "schedules")
@@ -56,6 +58,7 @@ public class Schedule extends BaseEntity {
     /*
      * 일정 수정 메서드
      * @Transactional 환경에서 이 메서드 호출 시 더티체킹으로 자동 UPDATE 쿼리 실행
+     * save()를 직접 호출하지 않아도 됨
      */
     public void update(String title, String content) {
         this.title = title;
@@ -64,6 +67,8 @@ public class Schedule extends BaseEntity {
 
 
     /*========== Getter ===========*/
+
+    /* 하위 필드 접근을 위한 getter */
     public Long getId() {
         return id;
     }

@@ -4,8 +4,10 @@ import com.example.scheduledev.common.BaseEntity;
 import jakarta.persistence.*;
 
 /*
+ * 유저 엔티티 클래스
  * @Entity: 이 클래스가 DB 테이블과 연결된 JPA 엔티티임을 선언
  * @Table: 연결할 DB 테이블 이름을 "users"로 지정
+ * BaseEntity를 상속받아 createdAt, updatedAt 자동 관리
  */
 @Entity
 @Table(name = "users")
@@ -49,6 +51,7 @@ public class User extends BaseEntity {
     /*
      * 유저 정보 수정 메서드 (username, email만 수정 가능, password는 별도 처리)
      * @Transactional 환경에서 이 메서드 호출 시 더티체킹으로 자동 UPDATE 쿼리 실행
+     * save()를 직접 호출하지 않아도 됨
      */
     public void update(String username, String email) {
         this.username = username;
@@ -56,6 +59,8 @@ public class User extends BaseEntity {
     }
 
     /*========== Getter ===========*/
+
+    /* 필드 접근을 위한 getter */
     public Long getId() {
         return id;
     }
