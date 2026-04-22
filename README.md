@@ -115,7 +115,8 @@ erDiagram
 ```json
 {
   "username": "godi5",
-  "email": "godi5@email.com"
+  "email": "godi5@email.com",
+  "password": "12345678"
 }
 ```
 
@@ -232,7 +233,6 @@ erDiagram
 #### Request Body
 ```json
 {
-  "userId": 1,
   "title": "일정 생성",
   "content": "schedule API 만들기"
 }
@@ -349,7 +349,7 @@ erDiagram
 - [x] 유저 비밀번호 필드 추가
 - [x] 비밀번호 8글자 이상 검증
 
-### LV4
+### Lv4
 - [x] Cookie/Session을 활용한 로그인 구현
 - [x] 이메일, 비밀번호로 로그인
 - [x] 일정 생성, 수정, 삭제 시 세션 검증
