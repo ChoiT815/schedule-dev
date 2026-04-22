@@ -1,12 +1,12 @@
 package com.example.scheduledev.schedule.dto;
 
 public class ScheduleRequestDto {
-    private String author;
+    private Long userId;
     private String title;
     private String content;
 
-    public String getAuthor() {
-        return author;
+    public Long getUserId() {
+        return userId;
     }
 
     public String getTitle() {

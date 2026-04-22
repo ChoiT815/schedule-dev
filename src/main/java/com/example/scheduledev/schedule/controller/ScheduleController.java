@@ -24,7 +24,7 @@ public class ScheduleController {
                 scheduleService.createSchedule(
                         requestDto.getTitle(),
                         requestDto.getContent(),
-                        requestDto.getAuthor()
+                        requestDto.getUserId()
                 )
         );
     }
@@ -58,10 +58,4 @@ public class ScheduleController {
                 scheduleService.deleteSchedule(id)
         );
     }
-
-
-
-
-
-
 }

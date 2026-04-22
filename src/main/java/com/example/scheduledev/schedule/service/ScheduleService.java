@@ -2,6 +2,8 @@ package com.example.scheduledev.schedule.service;
 
 import com.example.scheduledev.schedule.domain.Schedule;
 import com.example.scheduledev.schedule.repository.ScheduleRepository;
+import com.example.scheduledev.user.domain.User;
+import com.example.scheduledev.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,14 +13,18 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
-    public ScheduleService(ScheduleRepository scheduleRepository) {
+    public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository) {
         this.scheduleRepository = scheduleRepository;
+        this.userRepository = userRepository;
     }
 
     // 생성(C)
-    public Schedule createSchedule(String title, String content, String author) {
-        Schedule schedule = new Schedule(title, content, author);
+    public Schedule createSchedule(String title, String content, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
+        Schedule schedule = new Schedule(title, content, user);
         return scheduleRepository.save(schedule);
     }
 

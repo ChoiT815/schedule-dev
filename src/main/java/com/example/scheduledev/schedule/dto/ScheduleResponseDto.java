@@ -1,7 +1,6 @@
 package com.example.scheduledev.schedule.dto;
 
 import com.example.scheduledev.schedule.domain.Schedule;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +9,7 @@ public class ScheduleResponseDto {
     private Long id;
     private String title;
     private String content;
-    private String author;
+    private Long userId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -18,7 +17,7 @@ public class ScheduleResponseDto {
         this.id = schedule.getId();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
-        this.author = schedule.getAuthor();
+        this.userId = schedule.getUser().getId();
         this.createdAt = schedule.getCreatedAt();
         this.updatedAt = schedule.getUpdatedAt();
     }
@@ -35,8 +34,8 @@ public class ScheduleResponseDto {
         return content;
     }
 
-    public String getAuthor() {
-        return author;
+    public Long getUserId() {
+        return userId;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -1,5 +1,6 @@
 package com.example.scheduledev.schedule.domain;
 
+import com.example.scheduledev.user.domain.User;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -34,10 +35,10 @@ public class Schedule {
 
     }
 
-    public Schedule(String title, String content, String author) {
+    public Schedule(String title, String content, User user) {
         this.title = title;
         this.content = content;
-        this.author = author;
+        this.user = user;
     }
 
     public void update(String title, String content) {
@@ -58,8 +59,8 @@ public class Schedule {
         return content;
     }
 
-    public String getAuthor() {
-        return author;
+    public User getUser() {
+        return user;
     }
 
     public LocalDateTime getCreatedAt() {
