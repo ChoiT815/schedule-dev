@@ -34,11 +34,11 @@ public class UserController {
     /*========== 기능 ===========*/
 
     @PostMapping("/login")
-    public UserCreateResponse login(@RequestBody LoginRequestDto requestDto, HttpSession session) {
+    public UserGetResponse login(@RequestBody LoginRequest requestDto, HttpSession session) {
         User user = userService.login(requestDto.getEmail(), requestDto.getPassword());
 
         session.setAttribute("userId", user.getId());
-        return new UserCreateResponse(user);
+        return new UserGetResponse(user);
     }
 
     /*

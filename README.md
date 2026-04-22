@@ -82,7 +82,32 @@ erDiagram
 
 ---
 
-### 1. 유저 생성 API
+### 1. 로그인 API
+
+**POST /users/login**
+
+#### Request Body
+```json
+{
+  "email": "godi5@email.com",
+  "password": "12345678"
+}
+```
+
+#### Response (200 OK)
+```json
+{
+  "id": 1,
+  "username": "godi5",
+  "email": "godi5@email.com",
+  "createdAt": "2026-04-17T10:30:00",
+  "updatedAt": "2026-04-17T10:30:00"
+}
+```
+
+---
+
+### 2. 유저 생성 API
 
 **POST /users**
 
@@ -107,7 +132,7 @@ erDiagram
 
 ---
 
-### 2. 유저 전체 조회 API
+### 3. 유저 전체 조회 API
 
 **GET /users**
 
@@ -126,7 +151,7 @@ erDiagram
 
 ---
 
-### 3. 유저 단건 조회 API
+### 4. 유저 단건 조회 API
 
 **GET /users/{id}**
 
@@ -143,7 +168,7 @@ erDiagram
 
 ---
 
-### 4. 유저 수정 API
+### 5. 유저 수정 API
 
 **PATCH /users/{id}**
 
@@ -168,7 +193,7 @@ erDiagram
 
 ---
 
-### 5. 유저 삭제 API
+### 6. 유저 삭제 API
 
 **DELETE /users/{id}**
 

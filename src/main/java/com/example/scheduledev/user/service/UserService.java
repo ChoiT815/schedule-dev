@@ -69,7 +69,7 @@ public class UserService {
      */
     public User getUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("해당 일정이 없습니다."));
+                .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
     }
 
     /*
@@ -80,7 +80,7 @@ public class UserService {
     @Transactional
     public User updateUser(Long id, String username, String email ) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("해당 일정이 없습니다."));
+                .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
         user.update(username, email); /* 값 변경 → 트랜잭션 종료 시 자동 UPDATE */
         return user;
     }
@@ -93,7 +93,7 @@ public class UserService {
     @Transactional
     public User deleteUser(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("해당 일정이 없습니다."));
+                .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
         userRepository.delete(user); /* DELETE 쿼리 실행 */
         return user;
     }

@@ -1,6 +1,6 @@
 package com.example.scheduledev.user.dto;
 
-public class LoginRequestDto {
+public class LoginRequest {
     /*========== 속성 ===========*/
 
     private String email;
