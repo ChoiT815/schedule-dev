@@ -1,7 +1,6 @@
 package com.example.scheduledev.schedule.controller;
 
-import com.example.scheduledev.schedule.dto.ScheduleRequestDto;
-import com.example.scheduledev.schedule.dto.ScheduleResponseDto;
+import com.example.scheduledev.schedule.dto.*;
 import com.example.scheduledev.schedule.service.ScheduleService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +39,14 @@ public class ScheduleController {
      * @RequestBody: HTTP 요청 Body의 JSON을 ScheduleRequestDto 객체로 변환
      */
     @PostMapping
-    public ResponseEntity<?> createSchedules(@RequestBody ScheduleRequestDto requestDto, HttpSession session) {
+    public ResponseEntity<?> createSchedules(@RequestBody ScheduleCreateRequest requestDto, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
 
         if(userId == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
-        return ResponseEntity.ok (new ScheduleResponseDto(
+        return ResponseEntity.ok (new ScheduleCreateResponse(
                 scheduleService.createSchedule(
                         requestDto.getTitle(),
                         requestDto.getContent(),
@@ -62,9 +61,9 @@ public class ScheduleController {
      * 모든 일정을 List<ScheduleResponseDto>로 반환
      */
     @GetMapping
-    public List<ScheduleResponseDto> getSchedules() {
+    public List<ScheduleGetResponse> getSchedules() {
         return scheduleService.getSchedules().stream()
-                .map(ScheduleResponseDto::new) /* Schedule → ScheduleResponseDto 변환 */
+                .map(ScheduleGetResponse::new) /* Schedule → ScheduleResponseDto 변환 */
                 .toList();
     }
 
@@ -73,8 +72,8 @@ public class ScheduleController {
      * @PathVariable: URL 경로의 {id} 값을 Long id 파라미터로 받음
      */
     @GetMapping("/{id}")
-    public ScheduleResponseDto getSchedules(@PathVariable Long id) {
-        return new ScheduleResponseDto(scheduleService.getSchedule(id));
+    public ScheduleGetResponse getSchedules(@PathVariable Long id) {
+        return new ScheduleGetResponse(scheduleService.getSchedule(id));
     }
 
     /*
@@ -83,14 +82,14 @@ public class ScheduleController {
      * PUT은 전체 수정, PATCH는 일부 수정에 사용
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateSchedules(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto, HttpSession session) {
+    public ResponseEntity<?> updateSchedules(@PathVariable Long id, @RequestBody ScheduleUpdateRequest requestDto, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
 
         if(userId == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
-        return ResponseEntity.ok(new ScheduleResponseDto(
+        return ResponseEntity.ok(new ScheduleUpdateResponse(
                 scheduleService.updateSchedule(id, requestDto.getTitle(), requestDto.getContent())
         ));
     }
@@ -108,7 +107,7 @@ public class ScheduleController {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
-        return ResponseEntity.ok(new ScheduleResponseDto(
+        return ResponseEntity.ok(new ScheduleDeleteResponse(
                 scheduleService.deleteSchedule(id)
         ));
     }
