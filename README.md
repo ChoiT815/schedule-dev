@@ -9,8 +9,8 @@
 - **Schedule Base URL**: `http://localhost:8080/schedules`
 - **User Base URL**: `http://localhost:8080/users`
 - **Auditing**
-  - createdAt (작성일) - JPA Auditing 자동 처리
-  - updatedAt (수정일) - JPA Auditing 자동 처리
+    - createdAt (작성일) - JPA Auditing 자동 처리
+    - updatedAt (수정일) - JPA Auditing 자동 처리
 
 ---
 
