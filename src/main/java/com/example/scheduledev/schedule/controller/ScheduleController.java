@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /*
- * @RestController: @Controller + @ResponseBody 합친 것
- * 모든 메서드의 반환값을 JSON으로 변환해서 응답
+ * 일정 관련 HTTP 요청을 처리하는 Controller
+ * @RestController: @Controller + @ResponseBody 합친 것, 모든 메서드의 반환값을 JSON으로 변환해서 응답
  * @RequestMapping: 이 Controller의 기본 URL을 "/schedules"로 지정
  */
 @RestController
@@ -40,8 +40,10 @@ public class ScheduleController {
      */
     @PostMapping
     public ResponseEntity<?> createSchedules(@RequestBody ScheduleCreateRequest requestDto, HttpSession session) {
+        /* 세션에서 userId를 꺼내 로그인 여부 확인 */
         Long userId = (Long) session.getAttribute("userId");
 
+        /* 로그인 안 했으면 401 에러 반환 */
         if(userId == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
@@ -50,26 +52,29 @@ public class ScheduleController {
                 scheduleService.createSchedule(
                         requestDto.getTitle(),
                         requestDto.getContent(),
-                        userId
+                        userId /* 세션에서 가져온 userId 사용 */
                 )
         ));
     }
 
     /*
-     * 전체 조회 (GET /schedules)
+     * 일정 전체 조회 (GET /schedules)
      * @GetMapping: HTTP GET 요청을 이 메서드에 매핑
-     * 모든 일정을 List<ScheduleResponseDto>로 반환
+     * 로그인 없이 누구나 조회 가능
+     * 모든 일정을 List<ScheduleGetResponse>로 반환
      */
     @GetMapping
     public List<ScheduleGetResponse> getSchedules() {
         return scheduleService.getSchedules().stream()
-                .map(ScheduleGetResponse::new) /* Schedule → ScheduleResponseDto 변환 */
+                .map(ScheduleGetResponse::new) /* Schedule → ScheduleGetResponse 변환 */
                 .toList();
     }
 
     /*
-     * 단건 조회 (GET /schedules/{id})
+     * 일정 단건 조회 (GET /schedules/{id})
+     * @GetMapping: HTTP GET 요청을 이 메서드에 매핑
      * @PathVariable: URL 경로의 {id} 값을 Long id 파라미터로 받음
+     * 로그인 없이 누구나 조회 가능
      */
     @GetMapping("/{id}")
     public ScheduleGetResponse getSchedules(@PathVariable Long id) {
@@ -77,14 +82,17 @@ public class ScheduleController {
     }
 
     /*
-     * 수정 (PATCH /schedules/{id})
+     * 일정 수정 (PATCH /schedules/{id})
      * @PatchMapping: HTTP PATCH 요청을 이 메서드에 매핑 (일부 수정)
      * PUT은 전체 수정, PATCH는 일부 수정에 사용
+     * 로그인 필요 - 세션에서 userId를 꺼내 로그인 여부 확인, null이면 401 반환
      */
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateSchedules(@PathVariable Long id, @RequestBody ScheduleUpdateRequest requestDto, HttpSession session) {
+        /* 세션에서 userId를 꺼내 로그인 여부 확인 */
         Long userId = (Long) session.getAttribute("userId");
 
+        /* 로그인 안 했으면 401 에러 반환 */
         if(userId == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
@@ -95,14 +103,17 @@ public class ScheduleController {
     }
 
     /*
-     * 삭제 (DELETE /schedules/{id})
+     * 일정 삭제 (DELETE /schedules/{id})
      * @DeleteMapping: HTTP DELETE 요청을 이 메서드에 매핑
      * 삭제된 일정을 응답으로 반환
+     * 로그인 필요 - 세션에서 userId를 꺼내 로그인 여부 확인, null이면 401 반환
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSchedules(@PathVariable Long id, HttpSession session) {
+        /* 세션에서 userId를 꺼내 로그인 여부 확인 */
         Long userId = (Long) session.getAttribute("userId");
 
+        /* 로그인 안 했으면 401 에러 반환 */
         if(userId == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
