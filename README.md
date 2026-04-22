@@ -48,6 +48,7 @@ erDiagram
         LONG id PK
         STRING username
         STRING email
+        STRING password
         DATETIME created_at
         DATETIME updated_at
     }
