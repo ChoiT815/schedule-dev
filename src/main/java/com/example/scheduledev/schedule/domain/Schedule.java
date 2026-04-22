@@ -1,23 +1,16 @@
 package com.example.scheduledev.schedule.domain;
 
+import com.example.scheduledev.common.BaseEntity;
 import com.example.scheduledev.user.domain.User;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 /*
  * @Entity: 이 클래스가 DB 테이블과 연결된 JPA 엔티티임을 선언
  * @Table: 연결할 DB 테이블 이름을 "schedules"로 지정
- * @EntityListeners: JPA Auditing 기능을 사용하기 위해 리스너 등록 (createdAt, updatedAt 자동 관리)
  */
-
 @Entity
 @Table(name = "schedules")
-@EntityListeners(AuditingEntityListener.class)
-public class Schedule {
+public class Schedule extends BaseEntity {
     /*========== 속성 ===========*/
 
     /*
@@ -29,20 +22,6 @@ public class Schedule {
      private Long id; /* 일정 고유 식별자 */
      private String title; /* 할일 제목 */
      private String content; /* 할일 내용 */
-
-    /*
-     * @CreatedDate: 엔티티가 처음 저장될 때 현재 시간을 자동으로 넣어줌
-     * @Column(updatable = false): 최초 생성 이후 이 컬럼은 UPDATE 시 제외 (변경 불가)
-     */
-     @CreatedDate
-     @Column(updatable = false)
-     private LocalDateTime createdAt; /* 일정 작성일 (자동 생성, 변경 불가) */
-
-    /*
-     * @LastModifiedDate: 엔티티가 수정될 때마다 현재 시간을 자동으로 갱신
-     */
-     @LastModifiedDate /* 일정 수정일 (수정할 때마다 자동 갱신) */
-     private LocalDateTime updatedAt;
 
     /*
      * @ManyToOne: 여러 개의 Schedule이 하나의 User에 속하는 관계 (N:1)
@@ -89,9 +68,7 @@ public class Schedule {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() {return title; }
 
     public String getContent() {
         return content;
@@ -99,14 +76,6 @@ public class Schedule {
 
     public User getUser() {
         return user;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
 }

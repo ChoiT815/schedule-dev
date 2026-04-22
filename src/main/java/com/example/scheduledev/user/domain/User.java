@@ -1,22 +1,15 @@
 package com.example.scheduledev.user.domain;
 
+import com.example.scheduledev.common.BaseEntity;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
-
 
 /*
  * @Entity: 이 클래스가 DB 테이블과 연결된 JPA 엔티티임을 선언
  * @Table: 연결할 DB 테이블 이름을 "users"로 지정
- * @EntityListeners: JPA Auditing 기능을 사용하기 위해 리스너 등록 (createdAt, updatedAt 자동 관리)
  */
 @Entity
 @Table(name = "users")
-@EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User extends BaseEntity {
     /*========== 속성 ===========*/
 
     /*
@@ -30,20 +23,6 @@ public class User {
     private String email; /* 이메일 */
 
     private String password; /* 비밀번호 (8글자 이상) */
-
-    /*
-     * @CreatedDate: 엔티티가 처음 저장될 때 현재 시간을 자동으로 넣어줌
-     * @Column(updatable = false): 최초 생성 이후 이 컬럼은 UPDATE 시 제외 (변경 불가)
-     */
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt; /* 유저 가입일 (자동 생성, 변경 불가) */
-
-    /*
-     * @LastModifiedDate: 엔티티가 수정될 때마다 현재 시간을 자동으로 갱신
-     */
-    @LastModifiedDate
-    private LocalDateTime updatedAt; /* 유저 정보 수정일 (수정할 때마다 자동 갱신) */
 
     /*========== 생성자 ===========*/
 
@@ -89,15 +68,6 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
+    public String getPassword() { return password; }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 }
