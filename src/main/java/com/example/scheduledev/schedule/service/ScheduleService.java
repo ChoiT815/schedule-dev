@@ -39,6 +39,7 @@ public class ScheduleService {
      * 일정 생성
      * 세션에서 받은 userId로 User를 먼저 조회한 뒤, 새 Schedule을 생성해서 DB에 저장
      */
+    @Transactional
     public Schedule createSchedule(String title, String content, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
@@ -50,6 +51,7 @@ public class ScheduleService {
      * 일정 전체 조회
      * DB의 모든 일정을 리스트로 반환 (SELECT * FROM schedules)
      */
+    @Transactional(readOnly = true)
     public List<Schedule> getSchedules() {
         return scheduleRepository.findAll();
     }
@@ -58,6 +60,7 @@ public class ScheduleService {
      * 일정 단건 조회
      * id로 일정 하나를 조회, 없으면 예외 발생
      */
+    @Transactional(readOnly = true)
     public Schedule getSchedule(Long id) {
         return scheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("해당 일정이 없습니다."));
@@ -71,7 +74,7 @@ public class ScheduleService {
     @Transactional
     public Schedule updateSchedule(Long id, String title, String content) {
         Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(   () -> new RuntimeException("해당 일정이 없습니다."));
+                .orElseThrow(() -> new RuntimeException("해당 일정이 없습니다."));
         schedule.update(title, content); /* 값 변경 → 트랜잭션 종료 시 자동 UPDATE */
         return schedule;
     }

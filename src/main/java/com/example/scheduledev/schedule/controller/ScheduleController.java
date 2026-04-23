@@ -20,7 +20,7 @@ public class ScheduleController {
     /*========== 속성 ===========*/
 
     /* final: 한 번 주입받으면 변경 불가 (불변성 보장) */
-    private final ScheduleService scheduleService; /* 일정 비즈니스 로직 담당 */
+    private final ScheduleService scheduleService;
 
     /*========== 생성자 ===========*/
 
@@ -36,10 +36,10 @@ public class ScheduleController {
     /*
      * 일정 생성 (POST /schedules)
      * @PostMapping: HTTP POST 요청을 이 메서드에 매핑
-     * @RequestBody: HTTP 요청 Body의 JSON을 ScheduleRequestDto 객체로 변환
+     * @RequestBody: HTTP 요청 Body의 JSON을 ScheduleCreateRequest 객체로 변환
      */
     @PostMapping
-    public ResponseEntity<?> createSchedules(@RequestBody ScheduleCreateRequest requestDto, HttpSession session) {
+    public ResponseEntity<Object> createSchedules(@RequestBody ScheduleCreateRequest requestDto, HttpSession session) {
         /* 세션에서 userId를 꺼내 로그인 여부 확인 */
         Long userId = (Long) session.getAttribute("userId");
 
@@ -48,7 +48,7 @@ public class ScheduleController {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
-        return ResponseEntity.ok (new ScheduleCreateResponse(
+        return ResponseEntity.ok(new ScheduleCreateResponse(
                 scheduleService.createSchedule(
                         requestDto.getTitle(),
                         requestDto.getContent(),
@@ -66,7 +66,7 @@ public class ScheduleController {
     @GetMapping
     public List<ScheduleGetResponse> getSchedules() {
         return scheduleService.getSchedules().stream()
-                .map(ScheduleGetResponse::new) /* Schedule → ScheduleGetResponse 변환 */
+                .map(ScheduleGetResponse::new)
                 .toList();
     }
 
@@ -88,7 +88,7 @@ public class ScheduleController {
      * 로그인 필요 - 세션에서 userId를 꺼내 로그인 여부 확인, null이면 401 반환
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateSchedules(@PathVariable Long id, @RequestBody ScheduleUpdateRequest requestDto, HttpSession session) {
+    public ResponseEntity<Object> updateSchedules(@PathVariable Long id, @RequestBody ScheduleUpdateRequest requestDto, HttpSession session) {
         /* 세션에서 userId를 꺼내 로그인 여부 확인 */
         Long userId = (Long) session.getAttribute("userId");
 
@@ -109,7 +109,7 @@ public class ScheduleController {
      * 로그인 필요 - 세션에서 userId를 꺼내 로그인 여부 확인, null이면 401 반환
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSchedules(@PathVariable Long id, HttpSession session) {
+    public ResponseEntity<Object> deleteSchedules(@PathVariable Long id, HttpSession session) {
         /* 세션에서 userId를 꺼내 로그인 여부 확인 */
         Long userId = (Long) session.getAttribute("userId");
 

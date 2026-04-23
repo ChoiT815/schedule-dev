@@ -53,6 +53,7 @@ public class UserService {
      * 유저 생성
      * 비밀번호 8글자 미만이면 예외 발생, 통과하면 DB에 저장
      */
+    @Transactional
     public User createUser(String username, String email, String password) {
         /* 비밀번호 길이 검증 (8글자 미만이면 예외 발생) */
         if(password.length() < 8) {
@@ -66,6 +67,7 @@ public class UserService {
      * 유저 전체 조회
      * DB의 모든 유저를 리스트로 반환 (SELECT * FROM users)
      */
+    @Transactional(readOnly = true)
     public List<User> getUsers() {
         return userRepository.findAll();
     }
@@ -74,6 +76,7 @@ public class UserService {
      * 유저 단건 조회
      * id로 유저 하나를 조회, 없으면 예외 발생
      */
+    @Transactional(readOnly = true)
     public User getUser(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("해당 유저가 없습니다."));
